@@ -4,11 +4,11 @@ class Web2DocxClient {
   constructor(apiKey) {
     if (!apiKey) throw new Error("API Key is required");
     this.apiKey = apiKey;
-    this.baseURL = "http://localhost:7000/api/v1/convert";
+    this.baseURL = "http://localhost:5001/pdf";
   }
 
   async htmlToPdf(html) {
-    return this._makeRequest("/html-pdf", { html });
+    return this._makeRequest("/add", { html });
   }
 
   async urlToPdf(url) {
