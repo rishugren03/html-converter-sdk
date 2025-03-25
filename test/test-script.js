@@ -37,6 +37,17 @@ async function testDirectHTMLToPdf() {
   }
 }
 
+async function testHTMLToPdf() {
+  try {
+    console.log("Testing Direct HTML to PDF...");
+    const pdfBuffer = await client.htmlToPdf(sampleHTML);
+    saveFile("direct-html.pdf", pdfBuffer);
+    console.log("✅ Direct HTML to PDF - Success");
+  } catch (err) {
+    console.error("❌ Error in Direct HTML to PDF:", err.message);
+  }
+}
+
 // Convert HTML File
 async function testHTMLFileToPdf() {
   try {
@@ -140,12 +151,13 @@ async function testWithoutApiKey() {
 
 // Run Tests
 (async () => {
-  // await testDirectHTMLToPdf();
-  // await testHTMLFileToPdf();
+  await testDirectHTMLToPdf();
+  await testHTMLFileToPdf();
+  await testHTMLToPdf();
   // await testUrlToPdf();
   // await testDirectHTMLToImage();
   // await testUrlToImage();
-  await testHTMLToDocx();
+  // await testHTMLToDocx();
   // await testHTMLToSvg();
   // await testInvalidUrlToPdf();
   // await testEmptyHtmlToPdf();
