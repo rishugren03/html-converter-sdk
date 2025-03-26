@@ -5,8 +5,8 @@ class Web2DocxClient {
   constructor(apiKey) {
     if (!apiKey) throw new Error("API Key is required");
     this.apiKey = apiKey;
-    this.baseURL = "http://localhost:5001/pdf"; // ✅ Updated to queue service
-    this.wsURL = "ws://localhost:5001"; // ✅ WebSocket URL
+    this.baseURL = "http://localhost:5001/job/";
+    this.wsURL = "ws://localhost:5001";
 
     // ✅ Initialize WebSocket connection
     this.ws = new WebSocket(this.wsURL);
@@ -15,30 +15,47 @@ class Web2DocxClient {
   }
 
   async htmlToPdf(html) {
-    return this._makeRequest("/add", { html });
-  }
-
-  async urlToPdf(url) {
-    return this._makeRequest("/url-pdf", { url });
+    const type = "html-pdf";
+    const jobId = await this._queueJob("html", { html, type });
+    return this._waitForJob(jobId, (message) => {
+      return Uint8Array.from(message.data.split(",").map(Number));
+    });
   }
 
   async htmlToImage(html) {
-    return this._makeRequest("/html-image", { html });
+    const type = "html-image";
+    const jobId = await this._queueJob("html", { html, type });
+    return this._waitForJob(jobId, (message) => {
+      return Uint8Array.from(message.data.split(",").map(Number));
+    });
+  }
+
+  // async htmlToSvg(html) {
+  //   const type = "html-svg";
+  //   const jobId = await this._queueJob("html", { html, type });
+  //   return this._waitForJob(jobId, (message) => {
+  //     console.log(message);
+  //     return message.data;
+  //   });
+  // }
+
+  async urlToPdf(url) {
+    const type = "url-pdf";
+    const jobId = await this._queueJob("url", { url, type });
+    return this._waitForJob(jobId, (message) => {
+      return Uint8Array.from(message.data.split(",").map(Number));
+    });
   }
 
   async urlToImage(url) {
-    return this._makeRequest("/url-image", { url });
+    const type = "url-image";
+    const jobId = await this._queueJob("url", { url, type });
+    return this._waitForJob(jobId, (message) => {
+      return Uint8Array.from(message.data.split(",").map(Number));
+    });
   }
 
-  async htmlToDocx(html) {
-    return this._makeRequest("/html-docx", { html });
-  }
-
-  async htmlToSvg(html) {
-    return this._makeRequest("/html-svg", { html });
-  }
-
-  async _makeRequest(endpoint, data) {
+  async _queueJob(endpoint, data) {
     try {
       const response = await axios.post(this.baseURL + endpoint, data, {
         headers: {
@@ -46,27 +63,27 @@ class Web2DocxClient {
           "Content-Type": "application/json",
         },
       });
-
       console.log("📩 Job added to queue:", response.data);
-      const { jobId } = response.data; // ✅ Get jobId
-
-      return new Promise((resolve, reject) => {
-        // ✅ Listen for WebSocket message
-        this.ws.on("message", (msg) => {
-          const message = JSON.parse(msg);
-          if (message.jobId === jobId && message.status === "completed") {
-            console.log(`🎉 Job ${jobId} completed!`);
-            resolve(Buffer.from(message.pdf, "base64")); // ✅ Return PDF Buffer
-          }
-        });
-
-        // ✅ Timeout if job takes too long
-        setTimeout(() => reject(new Error("Job timed out")), 60000);
-      });
+      return response.data.jobId;
     } catch (error) {
       console.error(error.response);
       throw new Error(error.response?.data?.error || "API request failed");
     }
+  }
+
+  _waitForJob(jobId, processOutput) {
+    return new Promise((resolve, reject) => {
+      this.ws.on("message", (msg) => {
+        const message = JSON.parse(msg);
+        if (message.jobId === jobId && message.status === "completed") {
+          console.log(`🎉 Job ${jobId} completed!`);
+          resolve(processOutput(message));
+        }
+      });
+
+      // ✅ Timeout if job takes too long
+      setTimeout(() => reject(new Error("Job timed out")), 60000);
+    });
   }
 }
 

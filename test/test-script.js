@@ -7,9 +7,9 @@ const client = new Web2DocxClient(process.env.WEB2DOCX_API_KEY);
 
 // Ensure output directory exists
 const outputDir = path.resolve(__dirname, "output");
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true }); // Create if not exists
-}
+// if (!fs.existsSync(outputDir)) {
+//   fs.mkdirSync(outputDir, { recursive: true }); // Create if not exists
+// }
 
 // Paths
 const filePath = path.resolve(__dirname, "hello.html");
@@ -53,7 +53,9 @@ async function testHTMLFileToPdf() {
   try {
     console.log("Testing HTML File to PDF...");
     const pdfBuffer = await client.htmlToPdf(htmlFile);
-    saveFile("file-html.pdf", pdfBuffer);
+    // console.log("pdf-buffer: ", pdfBuffer);
+    // saveFile("file-html.pdf", pdfBuffer);
+    fs.writeFileSync("output.pdf", pdfBuffer);
     console.log("✅ HTML File to PDF - Success");
   } catch (err) {
     console.error("❌ Error in HTML File to PDF:", err.message);
@@ -112,7 +114,7 @@ async function testHTMLToDocx() {
 async function testHTMLToSvg() {
   try {
     console.log("Testing HTML to SVG...");
-    const svgBuffer = await client.htmlToSvg(sampleHTML);
+    const svgBuffer = await client.htmlToSvg(htmlFile);
     saveFile("image.svg", svgBuffer);
     console.log("✅ HTML to SVG - Success");
   } catch (err) {
@@ -151,12 +153,12 @@ async function testWithoutApiKey() {
 
 // Run Tests
 (async () => {
-  await testDirectHTMLToPdf();
-  await testHTMLFileToPdf();
-  await testHTMLToPdf();
+  // await testDirectHTMLToPdf();
+  // await testHTMLFileToPdf();
+  // await testHTMLToPdf();
   // await testUrlToPdf();
   // await testDirectHTMLToImage();
-  // await testUrlToImage();
+  await testUrlToImage();
   // await testHTMLToDocx();
   // await testHTMLToSvg();
   // await testInvalidUrlToPdf();
