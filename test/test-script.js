@@ -7,9 +7,6 @@ const client = new Web2DocxClient(process.env.WEB2DOCX_API_KEY);
 
 // Ensure output directory exists
 const outputDir = path.resolve(__dirname, "output");
-// if (!fs.existsSync(outputDir)) {
-//   fs.mkdirSync(outputDir, { recursive: true }); // Create if not exists
-// }
 
 // Paths
 const filePath = path.resolve(__dirname, "hello.html");
@@ -103,7 +100,9 @@ async function testHTMLToDocx() {
   try {
     console.log("Testing HTML to DOCX...");
     const docxBuffer = await client.htmlToDocx(sampleHTML);
+    console.log(docxBuffer);
     saveFile("doc3.docx", docxBuffer);
+    // fs.writeFileSync("docs.docx", docxBuffer);
     console.log("✅ HTML to DOCX - Success");
   } catch (err) {
     console.error("❌ Error in HTML to DOCX:", err.message);
@@ -158,8 +157,8 @@ async function testWithoutApiKey() {
   // await testHTMLToPdf();
   // await testUrlToPdf();
   // await testDirectHTMLToImage();
-  await testUrlToImage();
-  // await testHTMLToDocx();
+  // await testUrlToImage();
+  await testHTMLToDocx();
   // await testHTMLToSvg();
   // await testInvalidUrlToPdf();
   // await testEmptyHtmlToPdf();

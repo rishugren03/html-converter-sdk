@@ -22,6 +22,14 @@ class Web2DocxClient {
     });
   }
 
+  async htmlToDocx(html) {
+    const type = "html-docx";
+    const jobId = await this._queueJob("html", { html, type });
+    return this._waitForJob(jobId, (message) => {
+      return Buffer.from(message.data, "base64");
+    });
+  }
+
   async htmlToImage(html) {
     const type = "html-image";
     const jobId = await this._queueJob("html", { html, type });
