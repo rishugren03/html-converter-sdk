@@ -18,7 +18,7 @@ class Web2DocxClient {
     const type = "html-pdf";
     const jobId = await this._queueJob("html", { html, type });
     return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
+      return Buffer.from(message.data);
     });
   }
 
@@ -26,7 +26,7 @@ class Web2DocxClient {
     const type = "html-docx";
     const jobId = await this._queueJob("html", { html, type });
     return this._waitForJob(jobId, (message) => {
-      return Buffer.from(message.data, "base64");
+      return Buffer.from(message.data);
     });
   }
 
@@ -34,7 +34,7 @@ class Web2DocxClient {
     const type = "html-image";
     const jobId = await this._queueJob("html", { html, type });
     return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
+      return Buffer.from(message.data);
     });
   }
 
@@ -51,7 +51,7 @@ class Web2DocxClient {
     const type = "url-pdf";
     const jobId = await this._queueJob("url", { url, type });
     return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
+      return Buffer.from(message.data);
     });
   }
 
@@ -59,7 +59,7 @@ class Web2DocxClient {
     const type = "url-image";
     const jobId = await this._queueJob("url", { url, type });
     return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
+      return Buffer.from(message.data);
     });
   }
 

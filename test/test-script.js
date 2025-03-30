@@ -27,7 +27,8 @@ async function testDirectHTMLToPdf() {
   try {
     console.log("Testing Direct HTML to PDF...");
     const pdfBuffer = await client.htmlToPdf(sampleHTML);
-    saveFile("direct-html.pdf", pdfBuffer);
+    console.log(pdfBuffer);
+    // saveFile("direct-html.pdf", pdfBuffer);
     console.log("✅ Direct HTML to PDF - Success");
   } catch (err) {
     console.error("❌ Error in Direct HTML to PDF:", err.message);
@@ -51,8 +52,7 @@ async function testHTMLFileToPdf() {
     console.log("Testing HTML File to PDF...");
     const pdfBuffer = await client.htmlToPdf(htmlFile);
     // console.log("pdf-buffer: ", pdfBuffer);
-    // saveFile("file-html.pdf", pdfBuffer);
-    fs.writeFileSync("output.pdf", pdfBuffer);
+    saveFile("file-html.pdf", pdfBuffer);
     console.log("✅ HTML File to PDF - Success");
   } catch (err) {
     console.error("❌ Error in HTML File to PDF:", err.message);
@@ -152,15 +152,15 @@ async function testWithoutApiKey() {
 
 // Run Tests
 (async () => {
-  // await testDirectHTMLToPdf();
-  // await testHTMLFileToPdf();
-  // await testHTMLToPdf();
-  // await testUrlToPdf();
-  // await testDirectHTMLToImage();
-  // await testUrlToImage();
+  await testDirectHTMLToPdf();
+  await testHTMLFileToPdf();
+  await testHTMLToPdf();
+  await testUrlToPdf();
+  await testDirectHTMLToImage();
+  await testUrlToImage();
   await testHTMLToDocx();
-  // await testHTMLToSvg();
-  // await testInvalidUrlToPdf();
-  // await testEmptyHtmlToPdf();
-  // await testWithoutApiKey();
+  await testHTMLToSvg();
+  await testInvalidUrlToPdf();
+  await testEmptyHtmlToPdf();
+  await testWithoutApiKey();
 })();
