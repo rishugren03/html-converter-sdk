@@ -1,103 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bootstrap PDF Test</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet" />
+    <title>TOC Test</title>
     <style>
+      @page {
+        size: A4;
+        margin: 20mm;
+      }
       body {
         font-family: Arial, sans-serif;
-        padding: 20px;
-        background-color: #f8f9fa;
+        line-height: 1.6;
+        padding: 30px;
       }
-      .custom-bg {
-        background: linear-gradient(135deg, #007bff, #6610f2);
-        color: white;
+      h1,
+      h2 {
+        color: #333;
+        margin-top: 40px;
+      }
+      p {
+        margin-bottom: 16px;
+      }
+      .manual-toc {
+        border: 1px solid #ddd;
         padding: 20px;
-        border-radius: 10px;
+        background-color: #f9f9f9;
+      }
+      .manual-toc h2 {
+        margin-top: 0;
       }
     </style>
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div class="container">
-        <a class="navbar-brand" href="#">My Bootstrap Page</a>
-      </div>
-    </nav>
-
-    <div class="container mt-4">
-      <div class="row">
-        <!-- Card 1 -->
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header bg-dark text-white">Card Title</div>
-            <div class="card-body">
-              <p class="card-text">
-                This is a sample Bootstrap card with some content.
-              </p>
-              <button class="btn btn-success">Click Me</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header bg-warning text-dark">Another Card</div>
-            <div class="card-body">
-              <p class="card-text">
-                This is another card with different styling.
-              </p>
-              <button class="btn btn-danger">Another Button</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Custom Section -->
-      <div class="custom-bg mt-4 text-center">
-        <h2>Styled Section</h2>
-        <p>This section has a gradient background and rounded corners.</p>
-      </div>
-
-      <!-- Table -->
-      <div class="mt-4">
-        <h3>Sample Table</h3>
-        <table class="table table-striped table-bordered">
-          <thead class="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>City</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Alice</td>
-              <td>25</td>
-              <td>New York</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Bob</td>
-              <td>30</td>
-              <td>Los Angeles</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Charlie</td>
-              <td>22</td>
-              <td>Chicago</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <h1>Table of Contents</h1>
+    <div class="manual-toc">
+      <h2>Contents</h2>
+      <ol>
+        <li>
+          Introduction ................................................... 1
+        </li>
+        <li>
+          Chapter 1 ..................................................... 2
+          <ul>
+            <li>Section 1.1 .......................................... 3</li>
+            <li>Section 1.2 .......................................... 4</li>
+          </ul>
+        </li>
+        <li>
+          Chapter 2 ..................................................... 5
+          <ul>
+            <li>Section 2.1 .......................................... 6</li>
+          </ul>
+        </li>
+        <li>
+          Conclusion ..................................................... 7
+        </li>
+      </ol>
     </div>
+
+    <h1>Introduction</h1>
+    <p>This is the introduction section.</p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+      varius, metus nec fermentum imperdiet, sapien velit fringilla ex, a
+      efficitur ipsum lorem vitae tortor.
+    </p>
+
+    <h1>Chapter 1</h1>
+    <p>Content for chapter 1.</p>
+
+    <h2>Section 1.1</h2>
+    <p>
+      More details under chapter 1. Pellentesque habitant morbi tristique
+      senectus et netus et malesuada fames ac turpis egestas. Suspendisse
+      potenti.
+    </p>
+
+    <h2>Section 1.2</h2>
+    <p>
+      Even more details. Sed ut perspiciatis unde omnis iste natus error sit
+      voluptatem accusantium doloremque laudantium.
+    </p>
+
+    <h1>Chapter 2</h1>
+    <p>Content for chapter 2.</p>
+
+    <h2>Section 2.1</h2>
+    <p>
+      Details under chapter 2. At vero eos et accusamus et iusto odio
+      dignissimos ducimus qui blanditiis praesentium.
+    </p>
+
+    <h1>Conclusion</h1>
+    <p>This is the end of the document. Thank you for reading!</p>
   </body>
 </html>

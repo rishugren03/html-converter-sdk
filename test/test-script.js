@@ -6,9 +6,9 @@ require("dotenv").config();
 const client = new Web2DocxClient(process.env.WEB2DOCX_API_KEY);
 const outputDir = path.resolve(__dirname, "output");
 
-const sampleHTML = "<h1>Load Test</h1><p>Testing queue performance.</p>";
-const validUrl = "https://bawse.life";
-const NUM_REQUESTS = 100; // Number of test requests
+// Read the HTML file as a string
+const sampleHTML = fs.readFileSync(path.join(__dirname, "hello.html"), "utf8");
+const NUM_REQUESTS = 2; // Number of test requests
 
 let results = {
   totalRequests: NUM_REQUESTS,
@@ -46,7 +46,8 @@ async function stressTest() {
   const promises = [];
   for (let i = 0; i < NUM_REQUESTS; i++) {
     const testFn = async () => {
-      const pdfBuffer = await client.htmlToPdf(sampleHTML);
+      const pdfBuffer = await client.htmlToPdf(sampleHTML); // Pass the raw HTML string
+      // console.log(pdfBuffer);
       saveFile(`test-${i}.pdf`, pdfBuffer);
     };
     promises.push(testConversion(testFn, `Test #${i + 1}`));

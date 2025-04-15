@@ -5,8 +5,10 @@ class Web2DocxClient {
   constructor(apiKey) {
     if (!apiKey) throw new Error("API Key is required");
     this.apiKey = apiKey;
-    this.baseURL = "http://localhost:5001/job/";
-    this.wsURL = "ws://localhost:5001";
+    this.baseURL = "http://localhost:5001/queue/job/";
+    // this.baseURL = "http://3.17.77.70/queue/job/";
+    this.wsURL = "ws://localhost:5001/queue";
+    // this.wsURL = "ws://3.17.77.70/queue";
 
     // ✅ Initialize WebSocket connection
     this.ws = new WebSocket(this.wsURL);
@@ -18,7 +20,7 @@ class Web2DocxClient {
     const type = "html-pdf";
     const jobId = await this._queueJob("html", { html, type });
     return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
+      return Uint8Array.from(atob(message.data), (c) => c.charCodeAt(0));
     });
   }
 
@@ -34,7 +36,8 @@ class Web2DocxClient {
     const type = "html-image";
     const jobId = await this._queueJob("html", { html, type });
     return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
+      // return Uint8Array.from(message.data.split(",").map(Number));
+      return Uint8Array.from(atob(message.data), (c) => c.charCodeAt(0));
     });
   }
 
