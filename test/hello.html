@@ -1,97 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>TOC Test</title>
+    <title>Receipt</title>
     <style>
-      @page {
-        size: A4;
-        margin: 20mm;
-      }
       body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
+        font-family: "Arial", sans-serif;
+        background: #f6f6f6;
         padding: 30px;
       }
-      h1,
-      h2 {
+      .receipt {
+        max-width: 700px;
+        margin: auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
         color: #333;
-        margin-top: 40px;
       }
-      p {
-        margin-bottom: 16px;
+      .header p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #777;
       }
-      .manual-toc {
-        border: 1px solid #ddd;
-        padding: 20px;
-        background-color: #f9f9f9;
+      .details,
+      .items,
+      .total {
+        width: 100%;
+        margin-bottom: 30px;
       }
-      .manual-toc h2 {
-        margin-top: 0;
+      .details th,
+      .details td {
+        text-align: left;
+        padding: 8px 0;
+      }
+      .items th {
+        background: #f0f0f0;
+        padding: 10px;
+        text-align: left;
+        font-weight: bold;
+      }
+      .items td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      .total {
+        text-align: right;
+      }
+      .total h2 {
+        margin: 0;
+        font-size: 22px;
+        color: #333;
+      }
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #aaa;
+        margin-top: 50px;
       }
     </style>
   </head>
   <body>
-    <h1>Table of Contents</h1>
-    <div class="manual-toc">
-      <h2>Contents</h2>
-      <ol>
-        <li>
-          Introduction ................................................... 1
-        </li>
-        <li>
-          Chapter 1 ..................................................... 2
-          <ul>
-            <li>Section 1.1 .......................................... 3</li>
-            <li>Section 1.2 .......................................... 4</li>
-          </ul>
-        </li>
-        <li>
-          Chapter 2 ..................................................... 5
-          <ul>
-            <li>Section 2.1 .......................................... 6</li>
-          </ul>
-        </li>
-        <li>
-          Conclusion ..................................................... 7
-        </li>
-      </ol>
+    <div class="receipt">
+      <div class="header">
+        <h1>Company Name</h1>
+        <p>1234 Street Rd, Suite 5678</p>
+        <p>City, State, ZIP</p>
+        <p>Email: info@company.com | Phone: (123) 456-7890</p>
+      </div>
+
+      <table class="details">
+        <tr>
+          <th>Receipt #:</th>
+          <td>INV-1001</td>
+        </tr>
+        <tr>
+          <th>Date:</th>
+          <td>April 17, 2025</td>
+        </tr>
+        <tr>
+          <th>Billed To:</th>
+          <td>John Doe</td>
+        </tr>
+      </table>
+
+      <table class="items">
+        <thead>
+          <tr>
+            <th>Item Description</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Website Design</td>
+            <td>1</td>
+            <td>$500.00</td>
+            <td>$500.00</td>
+          </tr>
+          <tr>
+            <td>Hosting (12 months)</td>
+            <td>1</td>
+            <td>$120.00</td>
+            <td>$120.00</td>
+          </tr>
+          <tr>
+            <td>Domain (1 year)</td>
+            <td>1</td>
+            <td>$15.00</td>
+            <td>$15.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total">
+        <h2>Total: $635.00</h2>
+      </div>
+
+      <div class="footer">
+        <p>Thank you for your business!</p>
+        <p>Please make the payment within 15 days.</p>
+      </div>
     </div>
-
-    <h1>Introduction</h1>
-    <p>This is the introduction section.</p>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-      varius, metus nec fermentum imperdiet, sapien velit fringilla ex, a
-      efficitur ipsum lorem vitae tortor.
-    </p>
-
-    <h1>Chapter 1</h1>
-    <p>Content for chapter 1.</p>
-
-    <h2>Section 1.1</h2>
-    <p>
-      More details under chapter 1. Pellentesque habitant morbi tristique
-      senectus et netus et malesuada fames ac turpis egestas. Suspendisse
-      potenti.
-    </p>
-
-    <h2>Section 1.2</h2>
-    <p>
-      Even more details. Sed ut perspiciatis unde omnis iste natus error sit
-      voluptatem accusantium doloremque laudantium.
-    </p>
-
-    <h1>Chapter 2</h1>
-    <p>Content for chapter 2.</p>
-
-    <h2>Section 2.1</h2>
-    <p>
-      Details under chapter 2. At vero eos et accusamus et iusto odio
-      dignissimos ducimus qui blanditiis praesentium.
-    </p>
-
-    <h1>Conclusion</h1>
-    <p>This is the end of the document. Thank you for reading!</p>
   </body>
 </html>

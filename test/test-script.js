@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const Web2DocxClient = require("../src/web2docx-client");
+const { Web2DocxClient } = require("../index");
 require("dotenv").config();
 
 const client = new Web2DocxClient(process.env.WEB2DOCX_API_KEY);

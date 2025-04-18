@@ -24,13 +24,32 @@ class Web2DocxClient {
     });
   }
 
-  async htmlToDocx(html) {
-    const type = "html-docx";
-    const jobId = await this._queueJob("html", { html, type });
+  // batch processing (html-pdf)
+  async htmlBatchToPdf(htmlList) {
+    const type = "html-pdf-batch";
+
+    const batchLimit = 10;
+
+    if (htmlList.length > batchLimit) {
+      throw new Error(
+        `Batch limit of ${batchLimit} exceeded. Please reduce the number of HTML files.`
+      );
+    }
+
+    const jobId = await this._queueJob("html", { htmlList, type });
     return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
+      return Uint8Array.from(atob(message.data), (c) => c.charCodeAt(0));
     });
   }
+
+  // async htmlToDocx(html) {
+  //   const type = "html-docx";
+  //   const jobId = await this._queueJob("html", { html, type });
+  //   return this._waitForJob(jobId, (message) => {
+  //     console.log(message.data);
+  //     return Uint8Array.from(message.data.split(",").map(Number));
+  //   });
+  // }
 
   async htmlToImage(html) {
     const type = "html-image";
@@ -41,6 +60,22 @@ class Web2DocxClient {
     });
   }
 
+  // // batch processing(html-image)
+  // async htmlBatchToImage(htmlList) {
+  //   const type = "html-image-batch";
+  //   const batchLimit = 10;
+
+  //   if (htmlList.length > batchLimit) {
+  //     throw new Error(
+  //       `Batch limit of ${batchLimit} exceeded. Please reduce the number of HTML files.`
+  //     );
+  //   }
+  //   const jobId = await this._queueJob("html", { htmlList, type });
+  //   return this._waitForJob(jobId, (message) => {
+  //     return Uint8Array.from(atob(message.data), (c) => c.charCodeAt(0));
+  //   });
+  // }
+
   // async htmlToSvg(html) {
   //   const type = "html-svg";
   //   const jobId = await this._queueJob("html", { html, type });
@@ -50,21 +85,21 @@ class Web2DocxClient {
   //   });
   // }
 
-  async urlToPdf(url) {
-    const type = "url-pdf";
-    const jobId = await this._queueJob("url", { url, type });
-    return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
-    });
-  }
+  // async urlToPdf(url) {
+  //   const type = "url-pdf";
+  //   const jobId = await this._queueJob("url", { url, type });
+  //   return this._waitForJob(jobId, (message) => {
+  //     return Uint8Array.from(message.data.split(",").map(Number));
+  //   });
+  // }
 
-  async urlToImage(url) {
-    const type = "url-image";
-    const jobId = await this._queueJob("url", { url, type });
-    return this._waitForJob(jobId, (message) => {
-      return Uint8Array.from(message.data.split(",").map(Number));
-    });
-  }
+  // async urlToImage(url) {
+  //   const type = "url-image";
+  //   const jobId = await this._queueJob("url", { url, type });
+  //   return this._waitForJob(jobId, (message) => {
+  //     return Uint8Array.from(message.data.split(",").map(Number));
+  //   });
+  // }
 
   async _queueJob(endpoint, data) {
     try {
@@ -74,7 +109,15 @@ class Web2DocxClient {
           "Content-Type": "application/json",
         },
       });
-      console.log("📩 Job added to queue:", response.data);
+
+      if (response.data.queueType === "pro_max") {
+        console.log("🚀 Job added to high priority queue!");
+      } else if (response.data.queueType === "pro") {
+        console.log("🚄 Job added to priority queue!");
+      } else {
+        console.log("📄 Job added to standard free queue!");
+      }
+
       return response.data.jobId;
     } catch (error) {
       console.error(error.response);
