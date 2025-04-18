@@ -16,6 +16,8 @@ class Web2DocxClient {
     this.ws.on("close", () => console.log("❌ WebSocket connection closed"));
   }
 
+  // TODO: add pdf options like grayscale, orientation etc..
+
   async htmlToPdf(html) {
     const type = "html-pdf";
     const jobId = await this._queueJob("html", { html, type });
