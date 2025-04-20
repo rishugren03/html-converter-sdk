@@ -1,14 +1,23 @@
 {
-  "name": "web2docx-sdk",
+  "name": "@web2docx/web2docx-sdk",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "html-to-pdf",
+    "pdf-conversion",
+    "html-to-image",
+    "websocket-api",
+    "web2docx"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Real-time HTML to PDF/Image conversion client for Web2Docx API",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "axios": "^1.8.4",
     "cheerio": "^1.0.0",
