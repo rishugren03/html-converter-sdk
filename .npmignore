@@ -1,5 +1,6 @@
 .env
 .env.example
+src/
 test/
 node_modules/
 .gitignore
