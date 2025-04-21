@@ -16,7 +16,7 @@ const sampleHTML = fs.readFileSync(path.join(__dirname, "hello.html"), "utf8");
 
 // Configuration
 const NUM_HTMLS = 5;
-const NUM_BATCHES = 5;
+const NUM_BATCHES = 2;
 const DELAY_BETWEEN_BATCHES_MS = 1000; // 1 second delay
 
 let results = {
