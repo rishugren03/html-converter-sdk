@@ -17,13 +17,13 @@ Convert HTML to PDF and Images using WebSocket-powered real-time API.
 ## 📦 Installation
 
 ```bash
-npm install web2docx-sdk
+npm i @web2docx/web2docx-sdk
 ```
 
 or
 
 ```bash
-yarn add web2docx-sdk
+yarn add @web2docx/web2docx-sdk
 ```
 
 ---
@@ -33,7 +33,7 @@ yarn add web2docx-sdk
 ### 1. Import and Initialize
 
 ```javascript
-const { Web2DocxClient } = require("web2docx-sdk");
+const { Web2DocxClient } = require("@web2docx/web2docx-sdk");
 
 const client = new Web2DocxClient("YOUR_API_KEY");
 ```
