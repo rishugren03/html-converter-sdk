@@ -1,6 +1,6 @@
 {
   "name": "@web2docx/web2docx-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
