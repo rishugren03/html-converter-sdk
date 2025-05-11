@@ -5,8 +5,8 @@ class Web2DocxClient {
   constructor(apiKey) {
     if (!apiKey) throw new Error("API Key is required");
     this.apiKey = apiKey;
-    this.baseURL = `${serverUrl}/queue/job/`;
-    this.wsURL = `${wsUrl}/queue`;
+    this.baseURL = `https://queue.web2docx.com/queue/job/`;
+    this.wsURL = `wss://queue.web2docx.com/queue`;
 
     // ✅ Initialize WebSocket connection
     this.ws = new WebSocket(this.wsURL);
