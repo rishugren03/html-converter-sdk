@@ -89,6 +89,15 @@ htmlToImageExample();
 
 ---
 
+## 🔑 Get Your API Key
+
+To use this SDK, you need an API key.
+
+👉 **[Sign up at web2docx.com](https://web2docx.com)** and generate your key from the dashboard.  
+Free and paid plans are available based on usage.
+
+---
+
 ## ⚙️ API Reference
 
 | Method                               | Description                                        |
