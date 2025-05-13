@@ -3,9 +3,7 @@ const path = require("path");
 const { Web2DocxClient } = require("../index");
 require("dotenv").config();
 
-const client = new Web2DocxClient(
-  "sk_1bfba7958ed74afd98161b8473c7140b_9f950ff4"
-);
+const client = new Web2DocxClient("YOUR_API_KEY");
 const outputDir = path.resolve(__dirname, "output");
 
 // Make sure output directory exists
