@@ -185,6 +185,8 @@ MIT License
 
 ## ⭐️ Support Us
 
-If you find **Web2Docx** useful, please consider [giving us a star on GitHub](https://github.com/your-username/web2docx) — it helps us reach more developers and motivates us to keep improving. Thank you! 💜
+If you find **Web2Docx** useful, please consider [giving us a star on GitHub](https://github.com/rishugren03/html-converter-sdk) — it helps us reach more developers and motivates us to keep improving. Thank you! 💜
+
+---
 
 > **Made with ❤️ by the Web2Docx team**
