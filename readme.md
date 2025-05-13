@@ -28,6 +28,15 @@ yarn add @web2docx/web2docx-sdk
 
 ---
 
+## 🔑 Get Your API Key
+
+To use this SDK, you need an API key.
+
+👉 **[Sign up at web2docx.com](https://web2docx.com)** and generate your key from the dashboard.  
+Free and paid plans are available based on usage.
+
+---
+
 ## ⚡ Usage
 
 ### 1. Import and Initialize
@@ -89,12 +98,52 @@ htmlToImageExample();
 
 ---
 
-## 🔑 Get Your API Key
+### 5. HTML Batch to IMAGE (ZIP)
 
-To use this SDK, you need an API key.
+```javascript
+async function htmlBatchToImageExample() {
+  const htmlList = ["<h1>First Document</h1>", "<h1>Second Document</h1>"];
+  const zipBuffer = await client.htmlBatchToImage(htmlList);
 
-👉 **[Sign up at web2docx.com](https://web2docx.com)** and generate your key from the dashboard.  
-Free and paid plans are available based on usage.
+  fs.writeFileSync("batch-output.zip", zipBuffer);
+}
+
+htmlBatchToImageExample();
+```
+
+> **Note:** Maximum 10 HTML documents per batch.
+
+---
+
+### 6. HTML to Docx
+
+```javascript
+async function htmlToDocxExample() {
+  const html = "<h1>Hello Docx</h1>";
+  const docxBuffer = await client.htmlToDocx(html);
+
+  fs.writeFileSync("output.docx", docxBuffer);
+}
+
+htmlToDocxExample();
+```
+
+---
+
+### 7. HTML Batch to DOCX (ZIP)
+
+```javascript
+async function htmlBatchToDocxExample() {
+  const htmlList = ["<h1>First Document</h1>", "<h1>Second Document</h1>"];
+  const zipBuffer = await client.htmlBatchToDocx(htmlList);
+
+  fs.writeFileSync("batch-output.zip", zipBuffer);
+}
+
+htmlBatchToDocxExample();
+```
+
+> **Note:** Maximum 10 HTML documents per batch.
 
 ---
 
