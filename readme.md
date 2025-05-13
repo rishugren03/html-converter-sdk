@@ -149,11 +149,14 @@ htmlBatchToDocxExample();
 
 ## ⚙️ API Reference
 
-| Method                               | Description                                        |
-| :----------------------------------- | :------------------------------------------------- |
-| `htmlToPdf(html: string)`            | Convert single HTML to PDF (returns Buffer)        |
-| `htmlBatchToPdf(htmlList: string[])` | Convert multiple HTMLs into a ZIP (returns Buffer) |
-| `htmlToImage(html: string)`          | Convert HTML to Image (returns Buffer)             |
+| Method                                 | Description                                                      |
+| :------------------------------------- | :--------------------------------------------------------------- |
+| `htmlToPdf(html: string)`              | Convert single HTML to PDF (returns Buffer)                      |
+| `htmlBatchToPdf(htmlList: string[])`   | Convert multiple HTMLs into a ZIP of PDFs (returns Buffer)       |
+| `htmlToImage(html: string)`            | Convert single HTML to Image (returns Buffer)                    |
+| `htmlBatchToImage(htmlList: string[])` | Convert multiple HTMLs into a ZIP of Images (returns Buffer)     |
+| `htmlToDocx(html: string)`             | Convert single HTML to DOCX (returns Buffer)                     |
+| `htmlBatchToDocx(htmlList: string[])`  | Convert multiple HTMLs into a ZIP of DOCX files (returns Buffer) |
 
 ---
 
@@ -179,5 +182,9 @@ htmlBatchToDocxExample();
 MIT License
 
 ---
+
+## ⭐️ Support Us
+
+If you find **Web2Docx** useful, please consider [giving us a star on GitHub](https://github.com/your-username/web2docx) — it helps us reach more developers and motivates us to keep improving. Thank you! 💜
 
 > **Made with ❤️ by the Web2Docx team**
