@@ -12,7 +12,7 @@
     "websocket-api",
     "web2docx"
   ],
-  "author": "",
+  "author": "Rishu Kumar",
   "license": "ISC",
   "description": "Real-time HTML to PDF/Image conversion client for Web2Docx API",
   "publishConfig": {
