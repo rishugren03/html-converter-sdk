@@ -3,7 +3,9 @@ const path = require("path");
 const { Web2DocxClient } = require("../index");
 require("dotenv").config();
 
-const client = new Web2DocxClient(process.env.WEB2DOCX_API_KEY);
+const client = new Web2DocxClient(
+  "sk_1bfba7958ed74afd98161b8473c7140b_9f950ff4"
+);
 const outputDir = path.resolve(__dirname, "output");
 
 // Make sure output directory exists
@@ -12,7 +14,8 @@ if (!fs.existsSync(outputDir)) {
 }
 
 // Read sample HTML
-const sampleHTML = fs.readFileSync(path.join(__dirname, "hello.html"), "utf8");
+// const sampleHTML = fs.readFileSync(path.join(__dirname, "hello.html"), "utf8");
+const sampleHTML = "<h1>Hello Batch Docx</h1>";
 
 // Configuration
 const NUM_HTMLS = 5;
@@ -84,7 +87,7 @@ async function stressTest() {
     const htmlList = Array(NUM_HTMLS).fill(sampleHTML);
 
     const testFn = async () => {
-      const zipBuffer = await client.htmlBatchToPdf(htmlList);
+      const zipBuffer = await client.htmlBatchToDocx(htmlList);
       if (!validateZipContents(zipBuffer)) {
         throw new Error("Invalid ZIP file format");
       }

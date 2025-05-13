@@ -1,13 +1,18 @@
 const fs = require("fs");
 const path = require("path");
-const { Web2DocxClient } = require("@web2docx/web2docx-sdk");
+// const { Web2DocxClient } = require("@web2docx/web2docx-sdk");
+const { Web2DocxClient } = require("../index");
 require("dotenv").config();
 
-const client = new Web2DocxClient(process.env.WEB2DOCX_API_KEY);
+const client = new Web2DocxClient(
+  "sk_1bfba7958ed74afd98161b8473c7140b_9f950ff4"
+);
 const outputDir = path.resolve(__dirname, "output");
 
 // Read the HTML file as a string
-const sampleHTML = fs.readFileSync(path.join(__dirname, "hello.html"), "utf8");
+// const sampleHTML = fs.readFileSync(path.join(__dirname, "hello.html"), "utf8");
+const sampleHTML =
+  "<h1>Hii Testing docx</h1><br /> <p>Hello Noone i am falling for you</p>";
 const NUM_REQUESTS = 2; // Number of test requests
 
 let results = {
@@ -46,9 +51,9 @@ async function stressTest() {
   const promises = [];
   for (let i = 0; i < NUM_REQUESTS; i++) {
     const testFn = async () => {
-      const pdfBuffer = await client.htmlToPdf(sampleHTML); // Pass the raw HTML string
+      const pdfBuffer = await client.htmlToDocx(sampleHTML); // Pass the raw HTML string
       // console.log(pdfBuffer);
-      saveFile(`test-${i}.pdf`, pdfBuffer);
+      saveFile(`test-${i}.docx`, pdfBuffer);
     };
     promises.push(testConversion(testFn, `Test #${i + 1}`));
   }
