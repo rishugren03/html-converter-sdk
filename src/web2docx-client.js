@@ -6,9 +6,7 @@ class Web2DocxClient {
     if (!apiKey) throw new Error("API Key is required");
     this.apiKey = apiKey;
     this.baseURL = `https://queue.web2docx.com/queue/job/`;
-    // this.baseURL = "http://localhost:5001/queue/job/";
     this.wsURL = `wss://queue.web2docx.com/queue`;
-    // this.wsURL = "ws://localhost:5001/queue";
 
     // ✅ Initialize WebSocket connection
     this.ws = new WebSocket(this.wsURL);
@@ -94,31 +92,6 @@ class Web2DocxClient {
       return Uint8Array.from(atob(message.data), (c) => c.charCodeAt(0));
     });
   }
-
-  // async htmlToSvg(html) {
-  //   const type = "html-svg";
-  //   const jobId = await this._queueJob("html", { html, type });
-  //   return this._waitForJob(jobId, (message) => {
-  //     console.log(message);
-  //     return message.data;
-  //   });
-  // }
-
-  // async urlToPdf(url) {
-  //   const type = "url-pdf";
-  //   const jobId = await this._queueJob("url", { url, type });
-  //   return this._waitForJob(jobId, (message) => {
-  //     return Uint8Array.from(message.data.split(",").map(Number));
-  //   });
-  // }
-
-  // async urlToImage(url) {
-  //   const type = "url-image";
-  //   const jobId = await this._queueJob("url", { url, type });
-  //   return this._waitForJob(jobId, (message) => {
-  //     return Uint8Array.from(message.data.split(",").map(Number));
-  //   });
-  // }
 
   async _queueJob(endpoint, data) {
     try {
