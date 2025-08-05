@@ -2,17 +2,39 @@ const axios = require("axios");
 const WebSocket = require("ws");
 
 class Web2DocxClient {
-  constructor(apiKey) {
+  constructor(apiKey, options = {}) {
     if (!apiKey) throw new Error("API Key is required");
     this.apiKey = apiKey;
-    this.baseURL = `https://queue.web2docx.com/queue/job/`;
-    this.wsURL = `wss://queue.web2docx.com/queue`;
+
+    // Allow configurable URLs for different environments
+    this.baseURL =
+      options.baseURL ||
+      process.env.WEB2DOCX_API_URL ||
+      `https://queue.web2docx.com/queue/job/`;
+    this.wsURL =
+      options.wsURL ||
+      process.env.WEB2DOCX_WS_URL ||
+      `wss://queue.web2docx.com`;
+
+    // Production fixes for WebSocket path
+    if (!this.wsURL.includes("/queue") && !options.wsURL) {
+      this.wsURL += this.wsURL.endsWith("/") ? "queue" : "/queue";
+    }
 
     this.isConnected = false;
     this.connectionPromise = null;
     this.messageHandlers = new Map(); // Store job-specific handlers
     this.reconnectAttempts = 0;
-    this.maxReconnectAttempts = 5;
+    this.maxReconnectAttempts = Infinity; // Keep trying indefinitely for persistent connection
+
+    // Add debug logging for production troubleshooting
+    this.debug = options.debug || process.env.NODE_ENV === "development";
+
+    if (this.debug) {
+      console.log(`🔧 Web2DocxClient initialized:`);
+      console.log(`   API URL: ${this.baseURL}`);
+      console.log(`   WebSocket URL: ${this.wsURL}`);
+    }
 
     this._initializeWebSocket();
   }
@@ -59,9 +81,12 @@ class Web2DocxClient {
       });
 
       this.ws.on("close", () => {
-        console.log("❌ WebSocket connection closed");
+        console.log(
+          "❌ WebSocket connection closed - attempting to maintain persistent connection"
+        );
         this.isConnected = false;
         this._clearHeartbeat();
+        // Always attempt to reconnect to maintain persistent connection
         this._handleReconnection();
       });
 
@@ -81,16 +106,15 @@ class Web2DocxClient {
   }
 
   async _handleReconnection() {
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      console.error("❌ Max reconnection attempts reached");
-      return;
-    }
-
+    // Keep trying to reconnect indefinitely to maintain persistent connection
     this.reconnectAttempts++;
-    const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
+    const delay = Math.min(
+      1000 * Math.pow(2, Math.min(this.reconnectAttempts, 6)),
+      30000
+    );
 
     console.log(
-      `🔄 Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts}) in ${delay}ms`
+      `🔄 Maintaining persistent connection - reconnect attempt ${this.reconnectAttempts} in ${delay}ms`
     );
 
     setTimeout(() => {
@@ -130,8 +154,9 @@ class Web2DocxClient {
     }
   }
 
-  // Clean shutdown method
+  // Optional manual shutdown method (connection stays open by default)
   close() {
+    console.log("📋 Manually closing WebSocket connection");
     this._clearHeartbeat();
     this.messageHandlers.clear();
     if (this.ws && this.ws.readyState === this.ws.OPEN) {
@@ -248,6 +273,9 @@ class Web2DocxClient {
   }
 
   async _queueJob(endpoint, data) {
+    // Ensure WebSocket is connected BEFORE queuing the job
+    await this._ensureConnected();
+
     try {
       const response = await axios.post(this.baseURL + endpoint, data, {
         headers: {
@@ -329,13 +357,15 @@ class Web2DocxClient {
         }
       }, timeoutMs);
 
-      // Handle WebSocket disconnection during job wait
+      // Handle WebSocket disconnection during job wait - but don't fail immediately
       const originalClose = this.ws.onclose;
       this.ws.onclose = (event) => {
         if (!isResolved) {
-          isResolved = true;
-          cleanup();
-          reject(new Error("WebSocket connection lost while waiting for job"));
+          console.log(
+            "⚠️ WebSocket disconnected during job wait - attempting to maintain connection"
+          );
+          // Don't immediately fail - the reconnection logic will handle this
+          // The job will timeout if it can't reconnect in time
         }
         if (originalClose) originalClose(event);
       };
